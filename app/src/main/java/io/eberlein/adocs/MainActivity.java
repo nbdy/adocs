@@ -21,7 +21,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.paperdb.Paper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Paper.init(this);
         FileDownloader.setup(this);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);

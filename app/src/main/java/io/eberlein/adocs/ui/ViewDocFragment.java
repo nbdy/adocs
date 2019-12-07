@@ -48,7 +48,6 @@ public class ViewDocFragment extends Fragment {
         Log.d(LOG_TAG, documentation.getIndex());
         webView.setWebViewClient(new IWebViewClient());
         webView.getSettings().setAllowFileAccess(true);
-        webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(documentation.getSub(sub));
         return v;
     }

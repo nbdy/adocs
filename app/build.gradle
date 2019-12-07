@@ -41,5 +41,4 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
     implementation 'com.blankj:utilcodex:1.26.0'
     implementation 'com.liulishuo.filedownloader:library:1.7.7'
-    implementation 'io.paperdb:paperdb:2.6'
 }
