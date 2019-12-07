@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">ADocs</string>
+    <string name="offline">offline</string>
+    <string name="download_docs">download documentation</string>
+    <string name="documentations">documentations</string>
+    <string name="documentation">documentation</string>
+    <string name="home">home</string>
+    <string name="download">download</string>
+    <string name="delete">delete</string>
+    <string name="cancel">cancel</string>
+    <string name="error">error</string>
+
+    <string name="url">https://dl.google.com/android/repository/documentation-24_r01.zip</string>
+</resources>
