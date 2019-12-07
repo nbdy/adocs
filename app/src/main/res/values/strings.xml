@@ -10,5 +10,5 @@
     <string name="cancel">cancel</string>
     <string name="error">error</string>
 
-    <string name="url">https://dl.google.com/android/repository/documentation-24_r01.zip</string>
+    <string name="url">https://dl.google.com/android/repository/docs-24_r01.zip</string>
 </resources>
