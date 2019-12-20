@@ -11,4 +11,16 @@
         android:label="@string/home"
         tools:layout="@layout/fragment_home" />
 
+    <fragment
+        android:id="@+id/nav_search"
+        android:name="io.eberlein.adocs.ui.SearchFragment"
+        android:label="@string/search"
+        tools:layout="@layout/fragment_search"/>
+
+    <fragment
+        android:id="@+id/nav_favourites"
+        android:name="io.eberlein.adocs.ui.FavouritesFragment"
+        android:label="@string/favourites"
+        tools:layout="@layout/fragment_favourites"/>
+
 </navigation>

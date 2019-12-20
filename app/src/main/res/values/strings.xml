@@ -9,6 +9,9 @@
     <string name="delete">delete</string>
     <string name="cancel">cancel</string>
     <string name="error">error</string>
+    <string name="search">search</string>
+    <string name="favourites">favourites</string>
+    <string name="resume">resume</string>
 
     <string name="url">https://dl.google.com/android/repository/docs-24_r01.zip</string>
 </resources>

@@ -22,6 +22,7 @@ import com.liulishuo.filedownloader.FileDownloader;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +33,7 @@ import io.eberlein.adocs.objects.Documentation;
 // todo cancel download
 
 public class HomeFragment extends Fragment {
+    private boolean isDownloading = false;
     private Fragment thisRef;
     private BaseDownloadTask dlTask;
     private Documentation documentation;
@@ -93,14 +95,24 @@ public class HomeFragment extends Fragment {
 
     @OnClick(R.id.btn_download)
     void btnDownloadClicked(){
-        dlTask = FileDownloader.getImpl()
-                .create(documentation.getUrl())
-                .setPath(documentation.getZipFile().getAbsolutePath())
-                .setCallbackProgressTimes(300)
-                .setMinIntervalUpdateSpeed(420)
-                .setTag(documentation.getName())
-                .setListener(new DownloadListener());
-        dlTask.start();
+        if(!isDownloading) {
+            if(dlTask == null) {
+                dlTask = FileDownloader.getImpl()
+                        .create(documentation.getUrl())
+                        .setPath(documentation.getZipFile().getAbsolutePath())
+                        .setCallbackProgressTimes(300)
+                        .setMinIntervalUpdateSpeed(420)
+                        .setTag(documentation.getName())
+                        .setListener(new DownloadListener());
+            }
+            dlTask.start();
+            isDownloading = true;
+            btn_download.setText(getString(R.string.cancel));
+        } else {
+            dlTask.pause();
+            isDownloading = false;
+            btn_download.setText(getText(R.string.resume));
+        }
     }
 
     public HomeFragment(){

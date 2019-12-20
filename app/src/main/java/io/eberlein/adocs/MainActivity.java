@@ -1,7 +1,12 @@
 package io.eberlein.adocs;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -40,6 +45,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == Static.REQUEST_CODE_PERMISSION_STORAGE){
+            Log.d("oRPR", "storage code got");
+            if(grantResults[0] == RESULT_OK) Log.d("oRPR", "yup");
+        } else {
+            Log.d(String.valueOf(requestCode), permissions.toString() + String.valueOf(grantResults));
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FileDownloader.setup(this);
@@ -54,18 +69,9 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        PermissionUtils.permission(PermissionConstants.STORAGE).callback(new PermissionUtils.SimpleCallback() {
-            @Override
-            public void onGranted() {
-                Log.d(LOG_TAG, "permission storage granted");
-                createBaseFolder();
-            }
-
-            @Override
-            public void onDenied() {
-                Log.d(LOG_TAG, "storage permission denied");
-            }
-        });
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            PermissionUtils.permission(PermissionConstants.STORAGE).request();
+        }
     }
 
     @Override
