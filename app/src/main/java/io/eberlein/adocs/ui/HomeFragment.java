@@ -122,7 +122,7 @@ public class HomeFragment extends Fragment {
 
         @OnClick
         void onClick(){
-            FragmentUtils.add(getActivity().getSupportFragmentManager(), new ViewDocFragment(documentation, tv_name.getText().toString()), R.id.nav_host_fragment, false, true);
+            FragmentUtils.replace(getActivity().getSupportFragmentManager(), new ViewDocFragment(documentation, tv_name.getText().toString()), R.id.nav_host_fragment, true);
         }
 
         IViewHolder(View v){

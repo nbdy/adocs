@@ -7,10 +7,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
+import androidx.fragment.app.Fragment;
 
 import com.blankj.utilcode.constant.PermissionConstants;
 import com.blankj.utilcode.util.FileUtils;
@@ -39,7 +36,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.eberlein.adocs.objects.events.EventNextUrl;
 import io.eberlein.adocs.objects.events.EventViewUrl;
+import io.eberlein.adocs.ui.FavouritesFragment;
 import io.eberlein.adocs.ui.HomeFragment;
+import io.eberlein.adocs.ui.SearchFragment;
 import io.eberlein.adocs.ui.ViewDocFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -48,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.nav_view) NavigationView navigationView;
 
     private static final String TAG = "MainActivity";
-
-    private AppBarConfiguration mAppBarConfiguration;
 
     private List<String> lastViewed = new ArrayList<>();
 
@@ -67,6 +64,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void replaceFragment(Fragment f){
+        FragmentUtils.replace(getSupportFragmentManager(), f, R.id.nav_host_fragment, true);
+    }
+
+    private NavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new NavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+            switch (menuItem.getItemId()){
+                case R.id.nav_home:
+                    replaceFragment(new HomeFragment()); break;
+                case R.id.nav_fav:
+                    replaceFragment(new FavouritesFragment()); break;
+                case R.id.nav_search:
+                    replaceFragment(new SearchFragment()); break;
+            }
+            drawer.closeDrawers();
+            return true;
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,14 +91,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home,
-                R.id.nav_search,
-                R.id.nav_fav
-        ).setDrawerLayout(drawer).build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
+        navigationView.setNavigationItemSelectedListener(navigationItemSelectedListener);
 
         PermissionUtils.permission(PermissionConstants.STORAGE).callback(new PermissionUtils.SimpleCallback() {
             @Override
@@ -145,13 +155,6 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean currentFragmentIsViewDoc(){
         return getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment) instanceof ViewDocFragment;
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
     }
 
     private void popFragment(){
