@@ -22,7 +22,6 @@ import com.liulishuo.filedownloader.FileDownloader;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,7 +33,6 @@ import io.eberlein.adocs.objects.Documentation;
 
 public class HomeFragment extends Fragment {
     private boolean isDownloading = false;
-    private Fragment thisRef;
     private BaseDownloadTask dlTask;
     private Documentation documentation;
 
@@ -116,7 +114,7 @@ public class HomeFragment extends Fragment {
     }
 
     public HomeFragment(){
-        thisRef = this;
+
     }
 
     class IViewHolder extends RecyclerView.ViewHolder {
@@ -124,7 +122,7 @@ public class HomeFragment extends Fragment {
 
         @OnClick
         void onClick(){
-            FragmentUtils.replace(thisRef, new ViewDocFragment(documentation, tv_name.getText().toString()));
+            FragmentUtils.add(getActivity().getSupportFragmentManager(), new ViewDocFragment(documentation, tv_name.getText().toString()), R.id.nav_host_fragment, false, true);
         }
 
         IViewHolder(View v){
@@ -162,11 +160,10 @@ public class HomeFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, v);
         documentation = new Documentation(getString(R.string.url));
-        if(documentation.getDirectory().exists()) {
+        if (documentation.getDirectory().exists()) {
             btn_download.setVisibility(View.GONE);
             initRecycler();
-        }
-        else recycler.setVisibility(View.GONE);
+        } else recycler.setVisibility(View.GONE);
         return v;
     }
 }
