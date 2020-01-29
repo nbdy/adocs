@@ -131,7 +131,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.menu_favourite){
-            Static.getFavouriteSP().put(getCurrentUrl(), true);
+            if(isFavourite(getCurrentUrl())) Static.getFavouriteSP().remove(getCurrentUrl());
+            else Static.getFavouriteSP().put(getCurrentUrl(), true);
             invalidateOptionsMenu();
         }
         return super.onOptionsItemSelected(item);
@@ -172,7 +173,6 @@ public class MainActivity extends AppCompatActivity {
                 lastViewed.remove(getCurrentUrl());
                 if (lastViewed.size() > 1) {
                     EventBus.getDefault().post(new EventViewUrl(getCurrentUrl()));
-                    invalidateOptionsMenu();
                 } else {
                     popFragment();
                 }
@@ -180,5 +180,6 @@ public class MainActivity extends AppCompatActivity {
                 popFragment();
             }
         }
+        invalidateOptionsMenu();
     }
 }

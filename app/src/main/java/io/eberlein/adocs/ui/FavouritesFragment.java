@@ -33,8 +33,7 @@ public class FavouritesFragment extends Fragment {
 
     private List<String> favourites = new ArrayList<>();
 
-    @BindView(R.id.rv_fav)
-    RecyclerView recyclerView;
+    @BindView(R.id.rv_fav) RecyclerView recyclerView;
 
     class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_name)
@@ -51,12 +50,17 @@ public class FavouritesFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        favourites.addAll(Static.getFavouriteSP().getAll().keySet());
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = LayoutInflater.from(getContext()).inflate(R.layout.fragment_favourites, container, false);
         ButterKnife.bind(this, v);
-        favourites.addAll(Static.getFavouriteSP().getAll().keySet());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new RecyclerView.Adapter<ViewHolder>(){
             @NonNull
