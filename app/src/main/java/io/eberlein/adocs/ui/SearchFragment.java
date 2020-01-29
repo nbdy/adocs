@@ -50,6 +50,11 @@ public class SearchFragment extends Fragment {
         private boolean running = false;
         private boolean notifyOnNewItem = false;
 
+        SearchTask(String searchWord, File baseDirectory){
+            this.searchWord = searchWord;
+            this.baseDirectory = baseDirectory;
+        }
+
         SearchTask(String searchWord, File baseDirectory, boolean notifyOnNewItem){
             this.searchWord = searchWord;
             this.baseDirectory = baseDirectory;
