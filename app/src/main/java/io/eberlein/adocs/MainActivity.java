@@ -2,9 +2,11 @@ package io.eberlein.adocs;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -13,6 +15,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.blankj.utilcode.constant.PermissionConstants;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.FragmentUtils;
+import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SDCardUtils;
 
@@ -52,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventNextUrl(EventNextUrl e){
-        lastViewed.add(e.getUrl());
+        if(!lastViewed.contains(e.getUrl())) lastViewed.add(e.getUrl());
+        invalidateOptionsMenu();
     }
 
     private void createBaseFolder(){
@@ -106,6 +110,43 @@ public class MainActivity extends AppCompatActivity {
         EventBus.getDefault().unregister(this);
     }
 
+    public boolean isFavourite(String url){
+        return Static.getFavouriteSP().getBoolean(url, false);
+    }
+
+    public String getCurrentUrl(){
+        return lastViewed.get(lastViewed.size() - 1);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.menu_favourite){
+            Static.getFavouriteSP().put(getCurrentUrl(), true);
+            invalidateOptionsMenu();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if(currentFragmentIsViewDoc()){
+            getMenuInflater().inflate(R.menu.main, menu);
+            for(int i = 0; i < menu.size(); i++){
+                MenuItem mi = menu.getItem(i);
+                if(mi.getItemId() == R.id.menu_favourite){
+                    if(isFavourite(getCurrentUrl())) mi.setIcon(R.drawable.baseline_favorite_24);
+                    else mi.setIcon(R.drawable.baseline_favorite_border_24);
+                }
+                menu.getItem(i).setVisible(true);
+            }
+        }
+        return true;
+    }
+
+    private boolean currentFragmentIsViewDoc(){
+        return getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment) instanceof ViewDocFragment;
+    }
+
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -113,20 +154,27 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
+    private void popFragment(){
+        FragmentUtils.pop(getSupportFragmentManager(), true);
+    }
+
     @Override
     public void onBackPressed() {
         int c = FragmentUtils.getAllFragmentsInStack(getSupportFragmentManager()).size();
-        Log.d(TAG, String.valueOf(c));
+        Log.d(TAG, GsonUtils.toJson(lastViewed));
         if(c == 0){
             super.onBackPressed();
         } else {
-            if(getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment) instanceof ViewDocFragment){
-                if(lastViewed.size() > 1) {
-                    EventBus.getDefault().post(new EventViewUrl(lastViewed.get(lastViewed.size() - 2)));
-                    lastViewed.remove(lastViewed.size() - 1);
+            if(currentFragmentIsViewDoc()) {
+                lastViewed.remove(getCurrentUrl());
+                if (lastViewed.size() > 1) {
+                    EventBus.getDefault().post(new EventViewUrl(getCurrentUrl()));
+                    invalidateOptionsMenu();
+                } else {
+                    popFragment();
                 }
             } else {
-                getSupportFragmentManager().popBackStack();
+                popFragment();
             }
         }
     }
