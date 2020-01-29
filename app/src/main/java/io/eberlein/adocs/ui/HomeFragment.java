@@ -159,6 +159,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, v);
+        getActivity().setTitle(R.string.home);
         documentation = new Documentation(getString(R.string.url));
         if (documentation.getDirectory().exists()) {
             btn_download.setVisibility(View.GONE);

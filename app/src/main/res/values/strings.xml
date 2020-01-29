@@ -13,6 +13,7 @@
     <string name="favourites">favourites</string>
     <string name="favourite">favourite</string>
     <string name="resume">resume</string>
+    <string name="view">view</string>
 
     <string name="no_external_storage_permission">no external storage permission</string>
     <string name="url">https://dl.google.com/android/repository/docs-24_r01.zip</string>

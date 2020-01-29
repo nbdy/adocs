@@ -85,6 +85,7 @@ public class ViewDocFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_view_doc, container, false);
         ButterKnife.bind(this, v);
+        getActivity().setTitle(R.string.view);
         loadUrl(currentUrl);
         return v;
     }

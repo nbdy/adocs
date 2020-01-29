@@ -61,6 +61,7 @@ public class FavouritesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = LayoutInflater.from(getContext()).inflate(R.layout.fragment_favourites, container, false);
         ButterKnife.bind(this, v);
+        getActivity().setTitle(R.string.favourites);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new RecyclerView.Adapter<ViewHolder>(){
             @NonNull
