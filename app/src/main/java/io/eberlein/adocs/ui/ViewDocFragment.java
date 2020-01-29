@@ -36,6 +36,10 @@ public class ViewDocFragment extends Fragment {
         currentUrl = documentation.getSub(sub);
     }
 
+    ViewDocFragment(String url){
+        currentUrl = url;
+    }
+
     class IWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
