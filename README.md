@@ -7,8 +7,8 @@
 - [x] listing top level folders
 - [x] documentation navigation (navigation menu / links)
 - [x] onBackPressed support (goes to last visited link if in DocViewFragment)
+- [x] favourites
 - [ ] search
-- [ ] favourites
 
 ### why?
 alternatives don't allow to read docs from sdcard<br>
