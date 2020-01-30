@@ -38,7 +38,7 @@ import io.eberlein.adocs.objects.events.EventNextUrl;
 import io.eberlein.adocs.objects.events.EventViewUrl;
 import io.eberlein.adocs.ui.FavouritesFragment;
 import io.eberlein.adocs.ui.HomeFragment;
-import io.eberlein.adocs.ui.SearchFragment;
+// import io.eberlein.adocs.ui.SearchFragment;
 import io.eberlein.adocs.ui.ViewDocFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -76,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(new HomeFragment()); break;
                 case R.id.nav_fav:
                     replaceFragment(new FavouritesFragment()); break;
-                case R.id.nav_search:
-                    replaceFragment(new SearchFragment()); break;
+                // case R.id.nav_search:
+                //     replaceFragment(new SearchFragment()); break;
             }
             drawer.closeDrawers();
             return true;
