@@ -1,6 +1,8 @@
 package io.eberlein.adocs;
 
+import android.Manifest;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +15,7 @@ import com.blankj.utilcode.constant.PermissionConstants;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.FragmentUtils;
 import com.blankj.utilcode.util.GsonUtils;
+import com.blankj.utilcode.util.PathUtils;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SDCardUtils;
 
@@ -29,6 +32,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,10 +61,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createBaseFolder(){
-        String sd = SDCardUtils.getSDCardPathByEnvironment();
-        Log.d(TAG, sd);
-        if(!FileUtils.createOrExistsDir(sd + "/adocs/")){
+        File f = new File(SDCardUtils.getSDCardPathByEnvironment(),"adocs");
+        Log.d(TAG, f.getAbsolutePath());
+        if(!FileUtils.createOrExistsDir(f)){
             Log.e(TAG, "could not create base folder");
+            Toast.makeText(this, "base dir has not been created", Toast.LENGTH_LONG).show();
+            finish();
         }
     }
 

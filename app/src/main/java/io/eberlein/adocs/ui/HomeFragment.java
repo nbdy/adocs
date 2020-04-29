@@ -164,7 +164,7 @@ public class HomeFragment extends Fragment {
         if (documentation.getDirectory().exists()) {
             btn_download.setVisibility(View.GONE);
             initRecycler();
-        } else recycler.setVisibility(View.GONE);
+        }
         return v;
     }
 }
