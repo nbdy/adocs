@@ -1,21 +1,19 @@
 package io.eberlein.adocs;
 
-import android.Manifest;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.fragment.app.Fragment;
 
 import com.blankj.utilcode.constant.PermissionConstants;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.FragmentUtils;
 import com.blankj.utilcode.util.GsonUtils;
-import com.blankj.utilcode.util.PathUtils;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.SDCardUtils;
 
@@ -98,6 +96,10 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         navigationView.setNavigationItemSelectedListener(navigationItemSelectedListener);
+        ActionBarDrawerToggle a = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.open, R.string.close);
+        a.setDrawerIndicatorEnabled(true);
+        a.syncState();
+        drawer.addDrawerListener(a);
 
         PermissionUtils.permission(PermissionConstants.STORAGE).callback(new PermissionUtils.SimpleCallback() {
             @Override

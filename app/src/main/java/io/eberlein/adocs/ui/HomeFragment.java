@@ -51,6 +51,7 @@ public class HomeFragment extends Fragment {
         protected void completed(BaseDownloadTask task) {
             super.completed(task);
             pb_download.setVisibility(View.GONE);
+            btn_download.setVisibility(View.GONE);
             tv_speed.setVisibility(View.GONE);
             Toast.makeText(getContext(), "decompressing archive", Toast.LENGTH_SHORT).show();
             documentation.decompress();
@@ -160,7 +161,7 @@ public class HomeFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, v);
         getActivity().setTitle(R.string.home);
-        documentation = new Documentation(getString(R.string.url));
+        documentation = new Documentation(getString(R.string.d24_r01));
         if (documentation.getDirectory().exists()) {
             btn_download.setVisibility(View.GONE);
             initRecycler();
