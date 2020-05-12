@@ -58,6 +58,7 @@ public class ViewDocFragment extends Fragment {
         webView.getSettings().setAllowFileAccess(true);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDomStorageEnabled(true);
+        webView.getSettings().setBuiltInZoomControls(true);
         webView.loadUrl(url);
         EventBus.getDefault().post(new EventNextUrl(url));
     }

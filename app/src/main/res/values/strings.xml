@@ -14,12 +14,12 @@
     <string name="favourite">favourite</string>
     <string name="resume">resume</string>
     <string name="view">view</string>
-
+    <string name="unknown">unknown</string>
     <string name="open">open</string>
     <string name="close">close</string>
 
     <string name="no_external_storage_permission">no external storage permission</string>
-    <string name="dl_explaination">this will download the documentation zip from the google servers. the file is about ~300MB big. you might want to do this with WiFi.</string>
+    <string name="dl_explaination">this will download the documentation zip from the google servers. the file is about ~420MB big. you might want to do this with WiFi.</string>
 
     <string name="d24_r01">https://dl.google.com/android/repository/docs-24_r01.zip</string>
 

@@ -39,7 +39,23 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.btn_download) Button btn_download;
     @BindView(R.id.pb_download) ProgressBar pb_download;
     @BindView(R.id.tv_speed) TextView tv_speed;
+    @BindView(R.id.tv_min) TextView tv_min;
+    @BindView(R.id.tv_max) TextView tv_max;
     @BindView(R.id.recycler) RecyclerView recycler;
+
+    private void hideDL(){
+        pb_download.setVisibility(View.GONE);
+        tv_speed.setVisibility(View.GONE);
+        tv_min.setVisibility(View.GONE);
+        tv_max.setVisibility(View.GONE);
+    }
+
+    private void showDL(){
+        pb_download.setVisibility(View.VISIBLE);
+        tv_speed.setVisibility(View.VISIBLE);
+        tv_min.setVisibility(View.VISIBLE);
+        tv_max.setVisibility(View.VISIBLE);
+    }
 
     class DownloadListener extends FileDownloadSampleListener {
         @Override
@@ -50,9 +66,8 @@ public class HomeFragment extends Fragment {
         @Override
         protected void completed(BaseDownloadTask task) {
             super.completed(task);
-            pb_download.setVisibility(View.GONE);
             btn_download.setVisibility(View.GONE);
-            tv_speed.setVisibility(View.GONE);
+            hideDL();
             Toast.makeText(getContext(), "decompressing archive", Toast.LENGTH_SHORT).show();
             documentation.decompress();
             initRecycler();
@@ -67,26 +82,29 @@ public class HomeFragment extends Fragment {
         protected void error(BaseDownloadTask task, Throwable e) {
             super.error(task, e);
             e.printStackTrace();
-            pb_download.setVisibility(View.GONE);
-            tv_speed.setVisibility(View.GONE);
+            hideDL();
             Toast.makeText(getContext(), "could not download archive", Toast.LENGTH_LONG).show();
         }
 
         @Override
         protected void started(BaseDownloadTask task) {
             super.started(task);
-            pb_download.setVisibility(View.VISIBLE);
-            tv_speed.setVisibility(View.VISIBLE);
+            showDL();
             Toast.makeText(getContext(), "started download", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
             super.progress(task, soFarBytes, totalBytes);
-            if(totalBytes == -1) pb_download.setIndeterminate(true);
+            if(totalBytes == -1) {
+                pb_download.setIndeterminate(true);
+                tv_max.setText(R.string.unknown);
+            }
             else {
+                tv_max.setText(String.format(Locale.getDefault(), "%dMB", totalBytes / 1000000));
                 pb_download.setMax(totalBytes);
                 pb_download.setProgress(soFarBytes);
+                tv_min.setText(String.format(Locale.getDefault(), "%dMB", soFarBytes / 1000000));
             }
             tv_speed.setText(String.format(Locale.getDefault(), "%dkB", task.getSpeed()));
         }
