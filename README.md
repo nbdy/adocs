@@ -1,5 +1,5 @@
 # adocs
-[![Build Status](http://build.eberlein.io:8080/job/android_adocs/badge/icon)](http://build.eberlein.io:8080/job/android_adocs/)
+[![Build Status](https://build.eberlein.io/buildStatus/icon?job=android_adocs)](https://build.eberlein.io/job/android_adocs/)
 <br>android offline documentation viewer
 
 ### features
